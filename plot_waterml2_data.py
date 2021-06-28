@@ -1,1 +1,0 @@
-url="https://tsdata.horizons.govt.nz/data.hts?service=SOS&request=GetObservation&featureOfInterest=Manawatu%20at%20Teachers%20College&observedProperty=Stage%20[Water%20Level]&temporalFilter=om:phenomenonTime,P7D"
