@@ -30,7 +30,7 @@ def get_data(site):
     base_url = 'http://tsdata.horizons.govt.nz/'
     hts = 'boo.hts'
     measurement = 'Stage [Water Level]'
-    from_date = start_date(1)
+    from_date = start_date(2)
     to_date = get_now()
     #dtl_method = 'trend'
     
@@ -60,11 +60,6 @@ app = dash.Dash(__name__)
 
 app.layout = html.Div(
     children=[
-        html.H1(children="River levels",),
-        html.P(
-                children="Changing river levels"
-            " over the last 7 days",
-        ),
         html.Div(
             children=[
                 html.Div(
@@ -89,8 +84,7 @@ app.layout = html.Div(
             children=[
                 html.Div(
                     children=dcc.Graph(
-                        id="riverlevel-chart", 
-                        config={"displayModeBar": False},
+                        id="riverlevel-chart",
                     ),
                 ),
             ],
@@ -102,15 +96,15 @@ app.layout = html.Div(
 
 @app.callback(
     Output("riverlevel-chart", "figure"),
-    [
-        Input("sitename-filter", "site"),
-    ],
+    Input("sitename-filter", "value"),
 )
-def update_charts(site):
+def update_chart(sitename):
+    #site = 'Manawatu at Foxton'
     mask = (
-        (data.SiteName == site)
+        (data.SiteName == sitename)
     )
     filtered_data = data.loc[mask, :]
+    #filtered_data = data.query(data.SiteName == site)
     wl_figure = {
          "data": [
                  {
@@ -119,14 +113,11 @@ def update_charts(site):
                  "type": "lines",
                  },
         ],
-
         "layout": {
-            "title": site,
+            "title": sitename,
         },
     }
     return wl_figure                
-
-
 
 if __name__ == "__main__":
     app.run_server(debug=True)
