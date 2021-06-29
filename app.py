@@ -5,7 +5,6 @@ from dash.dependencies import Output, Input
 import pandas as pd
 import numpy as np
 import sys
-sys.path.append("/Users/shodges/Documents/GitHub/hilltop-py/hilltoppy/")
 import web_service as ws    
 from datetime import datetime
 import datetime as dt
@@ -50,21 +49,6 @@ def get_all_stage_data():
     df = ws.get_datatable(base_url, hts, collection, from_date=from_date, to_date=to_date)
     return df
 
-#site = 'Manawatu at Teachers College'
-#data = get_data(site)
-
-
-# tidy up dataframe - index contains site, measurement, and datetime; Value is the only column
-#l = data.index.tolist()
-#df = pd.DataFrame(l)
-#data = data.reset_index(drop=True)
-#df = df.reset_index(drop=True)
-#result = pd.concat([df, data], axis=1)
-#result.columns = ["Site","Measurement","DateTime","Value"]
-#result["Site"]='Manawatū at Teachers College'
-##data = data.query("type == 'conventional' and region == 'Albany'")
-#result["DateTime"] = pd.to_datetime(result["DateTime"], infer_datetime_format=True) #, format="%Y-%m-%d %H:%M:%S")
-#result.sort_values("DateTime", inplace=True)
 
 data = get_all_stage_data()
 data["Time"] = pd.to_datetime(data["Time"],infer_datetime_format=True)
@@ -76,11 +60,11 @@ app = dash.Dash(__name__)
 
 app.layout = html.Div(
     children=[
-#        html.H1(children="River levels",),
-#        html.P(
-#                children="Changing river levels"
-#            " over the last 7 days",
-#        ),
+        html.H1(children="River levels",),
+        html.P(
+                children="Changing river levels"
+            " over the last 7 days",
+        ),
         html.Div(
             children=[
                 html.Div(
@@ -105,76 +89,44 @@ app.layout = html.Div(
             children=[
                 html.Div(
                     children=dcc.Graph(
-                        id="riverlevel-chart", config={"displayModeBar": False},
+                        id="riverlevel-chart", 
+                        config={"displayModeBar": False},
                     ),
-                    className="card",
                 ),
             ],
-            className="wrapper",
         ),
-        """
-        html.Div(
-            dcc.Graph(
-                id="riverlevel-chart",
-                figure={
-                    "data": [
-                        {
-                            "x": result["DateTime"],
-                            "y": result["Value"],
-                            "type": "lines",
-                        },
-                    ],
-                    "layout": {"title": result["Site"][0]},
-                },
-            ),
-        ),
-        """
     ]
 )
     
     
 
 @app.callback(
-    [Output("riverlevel-chart", "figure")],
+    Output("riverlevel-chart", "figure"),
     [
-        Input("sitename-filter", "value"),
-        """
-        Input("type-filter", "value"),
-        Input("date-range", "start_date"),
-        Input("date-range", "end_date"),
-        """
+        Input("sitename-filter", "site"),
     ],
 )
-def update_charts(sitename): #avocado_type, start_date, end_date):
+def update_charts(site):
     mask = (
-        (data.SiteName == sitename)
+        (data.SiteName == site)
     )
     filtered_data = data.loc[mask, :]
-    riverlevel-chart-figure = {
-        "data": [
-            {
-                "x": filtered_data["Time"],
-                "y": filtered_data["M1"],
-                "type": "lines",
-                #"hovertemplate": "$%{y:.2f}<extra></extra>",
-            },
+    wl_figure = {
+         "data": [
+                 {
+                 "x": filtered_data["Time"], 
+                 "y": filtered_data["M1"],
+                 "type": "lines",
+                 },
         ],
+
         "layout": {
-            "title": {
-                "text": "River level plot",
-                "x": 0.05,
-                "xanchor": "left",
-            },
-            #"xaxis": {"fixedrange": True},
-            #"yaxis": {"tickprefix": "$", "fixedrange": True},
-            "colorway": ["#17B897"],
+            "title": site,
         },
     }
+    return wl_figure                
 
-    return riverlevel-chart-figure
 
 
-    
-    
 if __name__ == "__main__":
     app.run_server(debug=True)
