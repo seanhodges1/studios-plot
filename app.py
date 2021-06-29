@@ -30,7 +30,7 @@ def get_data(site):
     base_url = 'http://tsdata.horizons.govt.nz/'
     hts = 'boo.hts'
     measurement = 'Stage [Water Level]'
-    from_date = start_date(2)
+    from_date = start_date(7)
     to_date = get_now()
     #dtl_method = 'trend'
     
@@ -44,7 +44,7 @@ def get_all_stage_data():
     base_url = 'http://tsdata.horizons.govt.nz/'
     hts = 'boo.hts'
     collection = 'River Level'
-    from_date = start_date(1)
+    from_date = start_date(3)
     to_date = get_now()
     df = ws.get_datatable(base_url, hts, collection, from_date=from_date, to_date=to_date)
     return df
@@ -57,6 +57,9 @@ data["Time"] = pd.to_datetime(data["Time"],infer_datetime_format=True)
 
 # Create an instance of the dash class
 app = dash.Dash(__name__)
+# --- This line added for deployment to heroku
+server = app.server
+# ---
 
 app.layout = html.Div(
     children=[
@@ -99,7 +102,6 @@ app.layout = html.Div(
     Input("sitename-filter", "value"),
 )
 def update_chart(sitename):
-    #site = 'Manawatu at Foxton'
     mask = (
         (data.SiteName == sitename)
     )
