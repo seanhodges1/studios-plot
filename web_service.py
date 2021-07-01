@@ -520,6 +520,55 @@ def get_data(base_url, hts, site, measurement, from_date=None, to_date=None, agg
         return data_df
 
 
+def get_data_basic(base_url, hts, site, measurement, from_date=None, to_date=None, agg_method=None, agg_interval=None, alignment='00:00', parameters=False, dtl_method=None, quality_codes=False, tstype=None, ignore_gaps=True):
+    """
+    Function to query a Hilltop web server for time series data associated with a Site and Measurement.
+
+    Parameters
+    ----------
+    base_url : str
+        root url str. e.g. http://wateruse.ecan.govt.nz
+    hts : str
+        hts file name including the .hts extension. Even if the file to be accessed is a dsn file, it must still have an hts extension for the web service.
+    request : str
+        The function request.
+    site : str or None
+        The site to be extracted.
+    measurement : str or None
+        The measurement type name.
+    from_date : str or None
+        The start date in the format 2001-01-01. None will put it to the beginning of the time series.
+    to_date : str or None
+        The end date in the format 2001-01-01. None will put it to the end of the time series.
+    agg_method : str
+        The aggregation method to resample the data. e.g. Average, Total, Moving Average, Extrema.
+    agg_interval : str
+        The aggregation interval for the agg_method. e.g. '1 day', '1 week', '1 month'.
+    parameters : bool
+        Should the additional parameters (other than the value) be extracted and returned if they exist?
+    dtl_method : str or None
+        The method to use to convert values below a detection limit to numeric. Used for water quality results. Options are 'half' or 'trend'. 'half' simply halves the detection limit value, while 'trend' uses half the highest detection limit across the results when more than 40% of the values are below the detection limit. Otherwise it uses half the detection limit.
+    quality_codes : bool
+        Should the quality codes get returned?
+    tstype : str
+        The timeseries type, one of Standard, Check or Quality
+    ignore_gaps : bool
+        Should gaps be ignored when pulling out the data? Different organisations handle gap tagging differently. Some put gap tags at the beginning and end of a gap, while others put only a single gap tag. If ignore_gaps is False, then hilltop-py assumes the former and removes data between gaps. When in doubt, use the default of True.
+
+    Returns
+    -------
+    DataFrame
+        If parameters is False, then only one DataFrame is returned indexed by Site, Measurement, and DateTime. If parameters is True, then two DataFrames are returned. The first is the same as if parameters is False, but the second contains those additional parameters indexed by Site, Measurement, DateTime, and Parameter.
+    """
+    ### Make url
+    url = build_url(base_url=base_url, hts=hts, request='GetData', site=site, measurement=measurement, from_date=from_date, to_date=to_date, agg_method=agg_method, agg_interval=agg_interval, alignment=alignment, quality_codes=quality_codes, tstype=tstype)
+
+    ### Request data and load in xml
+    resp = requests.get(url, timeout=300)
+    data = xmltodict.parse(resp.text)['Hilltop']['Measurement']['Data']['E']
+    data_df = pd.DataFrame(data)
+    return data_df
+
 def wq_sample_parameter_list(base_url, hts, site):
     """
     Function to query a Hilltop server for the WQ sample parameter summary of a site.

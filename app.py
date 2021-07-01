@@ -50,7 +50,6 @@ def get_all_stage_data():
     df = ws.get_datatable(base_url, hts, collection, from_date=from_date, to_date=to_date)
     return df
 
-
 data = get_all_stage_data()
 data["Time"] = pd.to_datetime(data["Time"],infer_datetime_format=True)
 #data = data.query("SiteName == 'Manawatu at Teachers College'")
@@ -84,6 +83,7 @@ app.layout = html.Div(
             ],
             className="menu",
         ),
+                        
         html.Div(
             children=[
                 html.Div(
@@ -103,6 +103,8 @@ app.layout = html.Div(
     Input("sitename-filter", "value"),
 )
 def update_chart(sitename):
+    #data = get_all_stage_data()
+    #data["Time"] = pd.to_datetime(data["Time"],infer_datetime_format=True)
     mask = (
         (data.SiteName == sitename)
     )
