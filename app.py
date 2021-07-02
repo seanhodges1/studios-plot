@@ -78,7 +78,11 @@ app.layout = html.Div(
                                  },
                         ],
                         "layout": {
-                            
+                            "margin": {
+                                    "l" : 20,
+                                    "r" : 20,
+                                    "t" : 20,
+                                    "b" : 20}
                         },
                     },
                 ),
