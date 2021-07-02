@@ -51,17 +51,7 @@ def get_all_stage_data():
     df = ws.get_datatable(base_url, hts, collection, from_date=from_date, to_date=to_date)
     return df
 
-
-
-#site = "Makino at Rata Street"
-#data = get_data(site)
-#data["T"] = pd.to_datetime(data["T"],infer_datetime_format=True)
-##data['I1'] is type "str"
-#data["Value"] = pd.to_numeric(data["I1"])/1000.0
-
-
-#data = data.query("SiteName == 'Manawatu at Teachers College'")
-
+print("From=",start_date(),"&To=",get_now())
 
 # Create an instance of the dash class
 app = dash.Dash(__name__)
@@ -71,16 +61,7 @@ server = app.server
 
 app.layout = html.Div([
                 # represents the URL bar, doesn't render anything
-                 dcc.Location(id='url', refresh=False),
-#             
-#                 dcc.Link('Navigate to "Makino at Rata Street"', href='/Makino%20at%20Rata%20Street'),
-#                 html.Br(),
-#                 dcc.Link('Navigate to "Manawatu at Hopelands"', href='/Manawatu%20at%20Hopelands'),
-#             
-# =============================================================================
-                # content will be rendered in this element
-#                html.Div(id='page-content') ,
-#                         #hidden=True),
+                dcc.Location(id='url', refresh=False),
                 dcc.Graph(
                     id="riverlevel-chart",
                     config={
@@ -88,17 +69,15 @@ app.layout = html.Div([
                     },
                 ),
             ])   
-
-@app.callback([
-    Output("riverlevel-chart", "figure"),
-    Output('page-content', 'children')
-], [Input('url', 'pathname')])
+                          
+@app.callback(
+    Output("riverlevel-chart", "figure")
+, [Input('url', 'pathname')])
     
 def display_page(pathname):
     site = urllib.parse.unquote(pathname)[1:]
     data = get_data(urllib.parse.unquote(pathname)[1:])
     data["T"] = pd.to_datetime(data["T"],infer_datetime_format=True)
-    #data['I1'] is type "str"
     data["Value"] = pd.to_numeric(data["I1"])/1000.0
     wl_figure = figure={
                          "data": [
@@ -120,14 +99,10 @@ def display_page(pathname):
                              },
                         'yaxis':{
                                 'title':'River level (m)'
-                             }
-                        },
+                             },
+                        }
                     }
-    return wl_figure #, html.Div([
+    return wl_figure 
 
-#        html.H3('You are on page {}'.format(site))
-#    ])
-
-    
 if __name__ == "__main__":
     app.run_server(debug=True)
