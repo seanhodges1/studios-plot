@@ -89,6 +89,7 @@ app.layout = html.Div(
                 html.Div(
                     children=dcc.Graph(
                         id="riverlevel-chart",
+                        responsive=True,
                     ),
                 ),
             ],
@@ -103,13 +104,10 @@ app.layout = html.Div(
     Input("sitename-filter", "value"),
 )
 def update_chart(sitename):
-    #data = get_all_stage_data()
-    #data["Time"] = pd.to_datetime(data["Time"],infer_datetime_format=True)
     mask = (
         (data.SiteName == sitename)
     )
     filtered_data = data.loc[mask, :]
-    #filtered_data = data.query(data.SiteName == site)
     wl_figure = {
          "data": [
                  {
@@ -118,9 +116,7 @@ def update_chart(sitename):
                  "type": "lines",
                  },
         ],
-        "layout": {
-            "title": sitename,
-        },
+        "layout": {},
     }
     return wl_figure                
 
