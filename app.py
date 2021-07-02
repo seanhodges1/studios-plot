@@ -79,8 +79,8 @@ app.layout = html.Div([
 #             
 # =============================================================================
                 # content will be rendered in this element
-                html.Div(id='page-content') ,
-                         #hidden=True),
+#                html.Div(id='page-content') ,
+#                         #hidden=True),
                 dcc.Graph(
                     id="riverlevel-chart",
                     config={
@@ -104,7 +104,7 @@ def display_page(pathname):
                          "data": [
                                  {
                                  "x": data["T"], 
-                                 "y": data["I1"],
+                                 "y": data["Value"],
                                  "type": "lines",
                                  },
                         ],
@@ -115,14 +115,18 @@ def display_page(pathname):
                                     "t" : 20,
                                     "b" : 40},
                         "height" : 200,
+                        'xaxis':{
+                                'title':site
+                             },
                         'yaxis':{
                                 'title':'River level (m)'
                              }
                         },
                     }
-    return wl_figure, html.Div([
-        html.H3('You are on page {}'.format(site))
-    ])
+    return wl_figure #, html.Div([
+
+#        html.H3('You are on page {}'.format(site))
+#    ])
 
     
 if __name__ == "__main__":
