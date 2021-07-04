@@ -51,7 +51,7 @@ def get_all_stage_data():
     df = ws.get_datatable(base_url, hts, collection, from_date=from_date, to_date=to_date)
     return df
 
-print("From=",start_date(),"&To=",get_now())
+#print("From=",start_date(),"&To=",get_now())
 
 # Create an instance of the dash class
 app = dash.Dash(__name__)
