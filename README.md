@@ -30,7 +30,7 @@ If you have successfully cloned the repo, you will see folder on your local driv
 ### Setting up a new python environment
 As we want the eventual python application to be as small as possible, we don't want to have anything other than the essential python packages installed and running. The default python environment is a good general purpose place to try code out, but as soon as we start to play with multiple packages, things can start to get fat quite quick.
 
-To manage a trimmed down python environment, you need to install more software. If you haven't got it already, please install [Anaconda](https://anaconda.com).
+To manage a trimmed down python environment, you need to install more software. If you haven't got it already, please install [Anaconda](https://anaconda.com) (installation instructions [here](https://docs.anaconda.com/anaconda/install/windows/)).
 
 Once anacoda in installed, it is time to set up a minimal environment from which to run the code you pulled down to your machine earlier. 
 
