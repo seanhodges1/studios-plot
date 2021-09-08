@@ -42,13 +42,22 @@ From here, enter the following commands to set up our environment. I have called
 ```
 conda create --name tsplot-3.7 python=3.7
 conda activate tsplot-3.7
-conda install -c conda-forge dash
-conda install pandas numpy
-conda install requests
-conda install xmltodict
 ```
+You should see prompt prefixed with the name you chose for your environment. Mine looks like this:
+```
+(tsplot-3.7) C:\>
+```
+Continuing on, and installing the minimum set of packages...
+```
+conda install -c conda-forge dash  # installs the core dash components
+conda install pandas numpy         # installs pandas for dealing with data that will passed across to dash
+conda install requests             # used to for URL data requests
+conda install xmltodict            # for parsing the XML data into dict objects for data extraction
+```
+This will be the python environment used from this point forward.
+
 ## Testing this repo
-1. In your python IDE of choice, set up your code interpreter so that it is looking at this environment.
+1. In your python IDE of choice, set up your code interpreter so that it is looking at your newly created environment.
 2. Load app.py
 3. Run
 
@@ -61,8 +70,11 @@ Dash is running on http://127.0.0.1:8050/
    WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
 ```
-4. Launch a browser with the url above. A empty plot will be displayed 
-
+4. Launch a browser with the url above. A empty plot will be displayed. This equals success!
+5. To actually get something meaningful, add the following string (without the quotes) onto the end of the URL in the browser - "Manawatu at Teachers College"
+```
+http://127.0.0.1:8050/Manawatu at Teachers College
+```
 
 ## License
 [MIT](https://opensource.org/licenses/MIT)
