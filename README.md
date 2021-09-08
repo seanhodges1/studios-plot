@@ -38,17 +38,30 @@ On Windows, find the "Anaconda3 (64 bit)" folder on the start menu, and select "
 ```
 (base) C:\>
 ```
-
-
-
-
-From here, enter the following commands to set up our environment
-
-
-
+From here, enter the following commands to set up our environment. I have called the environment 'tsplot-3.7', but you can call this anything you like.
+```
+conda create --name tsplot-3.7 python=3.7
+conda activate tsplot-3.7
+conda install -c conda-forge dash
+conda install pandas numpy
+conda install requests
+conda install xmltodict
+```
 ## Testing this repo
+1. In your python IDE of choice, set up your code interpreter so that it is looking at this environment.
+2. Load app.py
+3. Run
 
+If successful, you will see the following text in the terminal window
+```
+Dash is running on http://127.0.0.1:8050/
 
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+```
+4. Launch a browser with the url above. A empty plot will be displayed 
 
 
 ## License
