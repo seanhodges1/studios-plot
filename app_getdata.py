@@ -1,6 +1,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc  # conda install -c conda-forge dash-bootstrap-components
 from dash.dependencies import Output, Input
 import pandas as pd
 import numpy as np
@@ -10,6 +11,8 @@ import web_service as ws
 from datetime import datetime
 import datetime as dt
 import pytz
+import dash_daq as daq
+
 pytz.all_timezones
 
 def get_now():
@@ -40,7 +43,6 @@ def get_data(site):
 
     return df
 
-
 def get_all_stage_data():
     base_url = 'http://tsdata.horizons.govt.nz/'
     hts = 'boo.hts'
@@ -50,35 +52,58 @@ def get_all_stage_data():
     df = ws.get_datatable(base_url, hts, collection, from_date=from_date, to_date=to_date)
     return df
 
+def get_thresholds(site):
+    # import threshold file
+    df = pd.read_csv("thresholds.csv")
+    df = df.query("SiteName == '"+site+"'")
+    return df
+
+
 site = "Makino at Rata Street"
+site = "Manawatu at Teachers College"
 data = get_data(site)
 data["T"] = pd.to_datetime(data["T"],infer_datetime_format=True)
 #data = data.query("SiteName == 'Manawatu at Teachers College'")
-
-
+thresholds = get_thresholds(site)
+#print(thresholds.head)
+#print("Number of rows:"+str(len(thresholds.index)))
 # Create an instance of the dash class
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 # --- This line added for deployment to heroku
 server = app.server
 # ---
 
 app.layout = html.Div(
-                children=dcc.Graph(
+    dbc.Row(
+            [
+                dbc.Col(html.Div([dcc.Graph(
                     id="riverlevel-chart",
                     figure={
-                         "data": [
-                                 {
-                                 "x": data["T"], 
-                                 "y": data["I1"],
-                                 "type": "lines",
-                                 },
-                        ],
-                        "layout": {
-                            "title": site,
-                        },
-                    },
-                ),
-            )   
+                            "data": [
+                                    {
+                                    "x": data["T"], 
+                                    "y": data["I1"],
+                                    "type": "lines",
+                                    }],
+                        
+                         "layout": {
+                            "margin": {
+                                    "l" : 80,
+                                    "r" : 80,
+                                    "t" : 20,
+                                    "b" : 40},
+                            "height" : 200}
+                  })]), width=10),
+                dbc.Col(html.Div(
+                    daq.Tank(
+                        value=3,
+                        scale={'interval': 2, 'labelInterval': 2,
+                            'custom': {'5': 'Set point'}},
+                        style={'margin-left': '50px'}
+                    )), width=2)
+            ]))
+
+
     
 if __name__ == "__main__":
     app.run_server(debug=True)
