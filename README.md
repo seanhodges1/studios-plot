@@ -32,7 +32,17 @@ As we want the eventual python application to be as small as possible, we don't 
 
 To manage a trimmed down python environment, you need to install more software. If you haven't got it already, please install [Anaconda](https://anaconda.com).
 
+Once anacoda in installed, it is time to set up a minimal environment from which to run the code you pulled down to your machine earlier. 
 
+On Windows, find the "Anaconda3 (64 bit)" folder on the start menu, and select "Anaconda Prompt (Anaconda3)". If successful, you will see the following prompt:
+'''
+(base) C:\>
+'''
+
+
+
+
+From here, enter the following commands to set up our environment
 
 
 
