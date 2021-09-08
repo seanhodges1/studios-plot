@@ -35,9 +35,9 @@ To manage a trimmed down python environment, you need to install more software. 
 Once anacoda in installed, it is time to set up a minimal environment from which to run the code you pulled down to your machine earlier. 
 
 On Windows, find the "Anaconda3 (64 bit)" folder on the start menu, and select "Anaconda Prompt (Anaconda3)". If successful, you will see the following prompt:
-'''
+```
 (base) C:\>
-'''
+```
 
 
 
