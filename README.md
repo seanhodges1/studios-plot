@@ -22,7 +22,7 @@ The [Dash framework](https://dash.plotly.com/introduction) by [Plotly](https://w
 ### Cloning the repo
 1. Firstly, if you haven't already, get a github account
 2. Login in and search for repo call "studios-plot". You should see "seanhodges1/studios-plot" amongst the search results.
-3. Fork "seanhodges1/studios-plot" to your own repository
+3. Clone "seanhodges1/studios-plot" to your own repository
 4. Download GitHub desktop (instructions [here](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/installing-and-authenticating-to-github-desktop/installing-github-desktop)), sign in, and search for "studios-plot" under your username, and clone it to your local drive.
 
 If you have successfully cloned the repo, you will see folder on your local drive with the repo name, and a bunch of python and other files included.
