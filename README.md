@@ -50,7 +50,7 @@ You should see prompt prefixed with the name you chose for your environment. Min
 Continuing on, and installing the minimum set of packages...
 ```
 conda install -c conda-forge dash  # installs the core dash components
-conda install pandas numpy         # installs pandas for dealing with data that will passed across to dash
+conda install pandas numpy         # installs pandas for dealing with the data that will used by dash
 conda install requests             # used to for URL data requests
 conda install xmltodict            # for parsing the XML data into dict objects for data extraction
 ```
