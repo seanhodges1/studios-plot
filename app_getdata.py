@@ -64,7 +64,7 @@ def get_thresholds(site):
     return df
 
 
-site = "Makino at Rata Street"
+site = "Waitara at Bertrand Rd"
 site = "Manawatu at Teachers College"
 data = get_data(site)
 data["T"] = pd.to_datetime(data["T"],infer_datetime_format=True)
