@@ -40,16 +40,20 @@ On Windows, find the "Anaconda3 (64 bit)" folder on the start menu, and select "
 ```
 From here, enter the following commands to set up our environment. I have called the environment 'tsplot-3.7', but you can call this anything you like.
 ```
-conda create --name tsplot-3.7 python=3.7
-conda activate tsplot-3.7
+conda create --name tsplot-3.9 python=3.9
+conda activate tsplot-3.9
 ```
 You should see prompt prefixed with the name you chose for your environment. Mine looks like this:
 ```
-(tsplot-3.7) C:\>
+(tsplot-3.9) C:\>
 ```
 Continuing on, and installing the minimum set of packages...
 ```
-conda install -c conda-forge dash  # installs the core dash components
+conda install -c conda-forge::dash  # installs the core dash components
+conda install -c conda-forge::dash-core-components
+conda install -c conda-forge::dash-html-components
+conda install -c conda-forge::dash-renderer
+conda install plotly
 conda install pandas numpy         # installs pandas for dealing with the data that will used by dash
 conda install requests             # used to for URL data requests
 conda install xmltodict            # for parsing the XML data into dict objects for data extraction

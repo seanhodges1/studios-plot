@@ -1,8 +1,8 @@
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
-import dash_bootstrap_components as dbc  # conda install -c conda-forge dash-bootstrap-components
+from dash import dcc
+from dash import html
 from dash.dependencies import Output, Input
+import dash_bootstrap_components as dbc  # conda install conda-forge::dash-bootstrap-components
 import pandas as pd
 import numpy as np
 import requests
@@ -33,6 +33,8 @@ def get_data(site):
     ### Parameters
     base_url = 'http://tsdata.horizons.govt.nz/'
     hts = 'boo.hts'
+    base_url = 'https://extranet.trc.govt.nz/getdata/'
+    hts = 'telemetry.hts'
     measurement = 'Stage [Water Level]'
     from_date = start_date(7)
     to_date = get_now()
@@ -47,6 +49,9 @@ def get_all_stage_data():
     base_url = 'http://tsdata.horizons.govt.nz/'
     hts = 'boo.hts'
     collection = 'River Level'
+    base_url = 'https://extranet.trc.govt.nz/getdata/'
+    hts = 'telemetry.hts'
+    collection = 'WebRivers'
     from_date = start_date(3)
     to_date = get_now()
     df = ws.get_datatable(base_url, hts, collection, from_date=from_date, to_date=to_date)

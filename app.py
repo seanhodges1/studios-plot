@@ -3,17 +3,21 @@
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
 '''
-conda create --name tsplot-3.7 python=3.7
-conda activate tsplot-3.7
-conda install -c conda-forge dash
+conda create --name <your-environment> python=3.9
+conda activate <your-environment>
+conda install conda-forge::dash  
+conda install conda-forge::dash-html-components
+conda install conda-forge::dash-core-components
+conda install conda-forge::dash-renderer
+conda install plotly
 conda install pandas numpy
 conda install requests
 conda install xmltodict
 '''
 
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Output, Input
 import pandas as pd
 import web_service as ws    
@@ -40,6 +44,8 @@ def get_data(site):
     ### Parameters
     base_url = 'http://tsdata.horizons.govt.nz/'
     hts = 'boo.hts'
+    base_url = 'https://extranet.trc.govt.nz/getdata/'
+    hts = 'telemetry.hts'
     measurement = 'Stage [Water Level]'
     from_date = start_date(7)
     to_date = get_now()
@@ -51,6 +57,9 @@ def get_all_stage_data():
     base_url = 'http://tsdata.horizons.govt.nz/'
     hts = 'boo.hts'
     collection = 'River Level'
+    base_url = 'https://extranet.trc.govt.nz/getdata/'
+    hts = 'telemetry.hts'
+    collection = 'WebRivers'
     from_date = start_date(3)
     to_date = get_now()
     df = ws.get_datatable(base_url, hts, collection, from_date=from_date, to_date=to_date)
@@ -83,7 +92,7 @@ def display_page(pathname):
     site = urllib.parse.unquote(pathname)[1:]
     data = get_data(urllib.parse.unquote(pathname)[1:])
     data["T"] = pd.to_datetime(data["T"],infer_datetime_format=True)
-    data["Value"] = pd.to_numeric(data["I1"])/1000.0
+    data["Value"] = pd.to_numeric(data["I1"])#/1000.0
     wl_figure = figure={
                          "data": [
                                  {
